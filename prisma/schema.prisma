@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(USER)
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Event {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  image       String
+  price       Float     @default(0)
+  type        EventType @default(UPCOMING)
+  schedule    Json?     // Array of schedule objects { time: string, activity: string }
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([type, date])
+  @@index([date])
+  @@index([location])
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  userId    String
+  eventId   String
+  ticketId  String   @unique
+  qrCode    String?  @db.Text
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum EventType {
+  UPCOMING
+  PAST
+}
