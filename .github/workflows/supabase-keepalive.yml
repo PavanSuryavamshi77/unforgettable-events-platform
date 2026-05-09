@@ -13,5 +13,5 @@ jobs:
       - name: Ping Supabase REST API
         run: |
           curl "https://pysyrzdjymjilybankpq.supabase.co/rest/v1/" \
-          -H "apikey: ${{ ublishable_CIjKadUPgHZBywrua1Vi3w_tQsLer1_}}" \
-          -H "Authorization: Bearer ${{ublishable_CIjKadUPgHZBywrua1Vi3w_tQsLer1_}}"
+          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
