@@ -1,0 +1,17 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          curl "https://pysyrzdjymjilybankpq.supabase.co/rest/v1/" \
+          -H "apikey: ${{ ublishable_CIjKadUPgHZBywrua1Vi3w_tQsLer1_}}" \
+          -H "Authorization: Bearer ${{ublishable_CIjKadUPgHZBywrua1Vi3w_tQsLer1_}}"
